@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+import { CryptoContext } from "../context/CryptoContext";
 
 function TableComponent() {
+
   return (
     <div className="flex flex-col mt-9 border border-gray-100 rounded">
       <table className="w-[100%] table-auto">
