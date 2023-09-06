@@ -1,22 +1,18 @@
 import React, { useContext, useState } from "react";
-import debounce from 'lodash.debounce'
+import debounce from "lodash.debounce";
 import searchIcon from "../assets/search.svg";
 import { CryptoContext } from "../context/CryptoContext";
 
-function Search() {
+const SearchInput = ({ handleSearch }) => {
   const [searchText, setSearchText] = useState("");
-  let {searchData, getSearchResults} = useContext(CryptoContext);
-
-  const debounceFunc = debounce(function(val){
-    getSearchResults(val);
-  }, 2000)
+  const { searchData } = useContext(CryptoContext);
 
   const handleInput = (e) => {
     e.preventDefault();
     let query = e.target.value;
     setSearchText(query);
     console.log(searchText);
-    debounceFunc(query);
+    handleSearch(query);
   };
 
   return (
@@ -40,12 +36,40 @@ function Search() {
       </form>
 
       {searchText.length > 0 ? (
-        <ul className="absolute top-11 right-0 w-full h-96 rounded overflow-x-hidden py-2 bg-gray-200 bg-opacity-60 backdrop-blur-md">
-          <li>bitcoin</li>
-          <li>ethereum</li>
+        <ul className="absolute top-11 right-0 w-96 h-96 rounded overflow-x-hidden py-2 bg-gray-200 bg-opacity-60 backdrop-blur-md">
+          {searchData ? (
+            searchData.map((coin) => {
+              return (
+                <li className="flex items-center ml-4 my-2 cursor-pointer" key={coin.id}>
+                  <img
+                    className="w-[1rem] h-[1rem] mx-1.5 ml-5"
+                    src={coin.thumb}
+                    alt={coin.name}
+                  />
+                  <span>{coin.name}</span>
+                </li>
+              );
+            })
+          ) : (
+            <h2>Please wait . . .</h2>
+          )}
         </ul>
       ) : null}
     </>
+  );
+};
+
+function Search() {
+  let { getSearchResults } = useContext(CryptoContext);
+
+  const debounceFunc = debounce(function (val) {
+    getSearchResults(val);
+  }, 2000);
+
+  return (
+    <div className="relative">
+      <SearchInput handleSearch={debounceFunc} />
+    </div>
   );
 }
 

@@ -3,7 +3,6 @@ import { CryptoContext } from "../context/CryptoContext";
 
 function TableComponent() {
   let { cryptoData } = useContext(CryptoContext);
-  console.log(cryptoData);
 
   return (
     <div className="flex flex-col mt-9 border border-gray-100 rounded">
@@ -51,7 +50,7 @@ function TableComponent() {
                     <img
                       className="w-[1.2rem] h-[1.2rem] mx-1.5 ml-5"
                       src={data.image}
-                      alt="coin image"
+                      alt={data.name}
                     />
                     <span>{data.symbol}</span>
                   </td>
