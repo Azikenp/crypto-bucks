@@ -1,10 +1,11 @@
 import React, { useContext, useRef } from "react";
 import Search from "./Search";
 import submitIcon from "../assets/submit-icon.svg"
+import selectIcon from "../assets/select-icon.svg"
 import { CryptoContext } from "../context/CryptoContext";
 
 function Filters() {
-  const {setCurrency} = useContext(CryptoContext);
+  const {setCurrency, setSortBy} = useContext(CryptoContext);
   const currencyRef  = useRef(null)
 
   const handleCurrencySubmit = (e) => {
@@ -12,6 +13,12 @@ function Filters() {
     let val = currencyRef.current.value;
     setCurrency(val);
     currencyRef.current.value = "";
+  }
+
+  const handleSort = (e) => {
+    e.preventDefault();
+    let val = e.target.value;
+    setSortBy(val)
   }
 
 
@@ -40,7 +47,7 @@ function Filters() {
 
         <label className="relative flex justify-center items-center">
         <span className="font-bold mr-2">sort by:</span>
-        <select className="rounded bg-gray-200 text-base pl-2 pr-10 py-1.5 leading-4 capitalize" name="sortby">
+        <select className="rounded bg-gray-200 text-base pl-2 pr-10 py-0.5 leading-4 capitalize focus:outline-0 " name="sortby" onClick={handleSort}>
           <option value="market_cap_desc">market cap desc</option>
           <option value="market_cap_asc">market cap asc</option>
           <option value="volume_desc">volume desc</option>
@@ -50,6 +57,8 @@ function Filters() {
           <option value="gecko_desc">gecko desc</option>
           <option value="gecko_asc">gecko asc</option>
         </select>
+        <img src={selectIcon} alt="submit icon" className="w-[1rem] h-auto absolute right-[0.1rem] top-[0.3rem] pointer-events-none" />
+
       </label>
       </div>
     </div>
