@@ -1,6 +1,6 @@
-import React from 'react'
-import TableComponent from '../components/TableComponent'
-import Filters from '../components/Filters'
+import React from 'react';
+import TableComponent from '../components/TableComponent';
+import Filters from '../components/Filters';
 
 const Crypto = () => {
   return (
@@ -11,4 +11,4 @@ const Crypto = () => {
   )
 }
 
-export default Crypto
+export default Crypto;

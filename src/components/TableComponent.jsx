@@ -49,7 +49,7 @@ function TableComponent() {
                       </svg>
                     </button>
                     <img
-                      className="w-[1.2rem] h-[1.2rem] mx-1.5"
+                      className="w-[1.2rem] h-[1.2rem] mx-1.5 ml-5"
                       src={data.image}
                       alt="coin image"
                     />

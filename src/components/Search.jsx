@@ -1,17 +1,22 @@
 import React, { useContext, useState } from "react";
+import debounce from 'lodash.debounce'
 import searchIcon from "../assets/search.svg";
 import { CryptoContext } from "../context/CryptoContext";
 
 function Search() {
   const [searchText, setSearchText] = useState("");
-  let {searchData, getSearchResults} = useContext(CryptoContext)
+  let {searchData, getSearchResults} = useContext(CryptoContext);
+
+  const debounceFunc = debounce(function(val){
+    getSearchResults(val);
+  }, 2000)
 
   const handleInput = (e) => {
     e.preventDefault();
     let query = e.target.value;
     setSearchText(query);
     console.log(searchText);
-    getSearchResults(query)
+    debounceFunc(query);
   };
 
   return (
