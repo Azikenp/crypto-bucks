@@ -5,7 +5,8 @@ import { CryptoContext } from "../context/CryptoContext";
 
 const SearchInput = ({ handleSearch }) => {
   const [searchText, setSearchText] = useState("");
-  const { searchData } = useContext(CryptoContext);
+  const { searchData, setCoinSearch, setSearchData } =
+    useContext(CryptoContext);
 
   const handleInput = (e) => {
     e.preventDefault();
@@ -15,9 +16,23 @@ const SearchInput = ({ handleSearch }) => {
     handleSearch(query);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleSearch(searchText);
+  };
+
+  const selectCoin = (coin) => {
+    setCoinSearch(coin);
+    setSearchText("");
+    setSearchData();
+  };
+
   return (
     <>
-      <form className="w-96 relative flex items-centerm ml-7 font-nunito">
+      <form
+        className="w-96 relative flex items-centerm ml-7 font-nunito"
+        onSubmit={handleSubmit}
+      >
         <input
           onChange={handleInput}
           value={searchText}
@@ -40,7 +55,11 @@ const SearchInput = ({ handleSearch }) => {
           {searchData ? (
             searchData.map((coin) => {
               return (
-                <li className="flex items-center ml-4 my-2 cursor-pointer" key={coin.id}>
+                <li
+                  className="flex items-center ml-4 my-2 cursor-pointer"
+                  key={coin.id}
+                  onClick={() => selectCoin(coin.id)}
+                >
                   <img
                     className="w-[1rem] h-[1rem] mx-1.5 ml-5"
                     src={coin.thumb}
@@ -51,7 +70,11 @@ const SearchInput = ({ handleSearch }) => {
               );
             })
           ) : (
-            <h2>Please wait . . .</h2>
+            <div className="w-full h-full flex items-center justify-center">
+              <div className="w-8 h-8 border-4 border-cyan rounded-full border-b-gray-300 animate-spin" role="status">
+              </div>
+                <span className="ml-2">searching . . .</span>
+            </div>
           )}
         </ul>
       ) : null}
