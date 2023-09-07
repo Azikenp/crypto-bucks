@@ -19,7 +19,6 @@ export const CryptoProvider = ({ children }) => {
       const data = await fetch(`https://api.coingecko.com/api/v3/coins/list`)
         .then((res) => res.json())
         .then((json) => json);
-      console.log(data);
       setTotalPages(data.length);
     } catch (error) {
       console.log(error);

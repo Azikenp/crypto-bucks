@@ -44,8 +44,8 @@ const PerPage = () => {
 };
 
 function Pagination() {
-  let { page, setPage, totalPages, PerPage } = useContext(CryptoContext);
-  const TotalNumber = Math.ceil(totalPages / PerPage);
+  let { page, setPage, totalPages, perPage } = useContext(CryptoContext);
+  const TotalNumber = Math.ceil(totalPages / perPage);
   const next = () => {
     if (page === TotalNumber) {
       return null;
@@ -80,7 +80,7 @@ function Pagination() {
 
   return (
     <div className="flex items-center">
-      <PerPage />
+     <PerPage />
       <ul className="flex items-center justify-end text-sm">
         <li className="flex items-center">
           <button className="outline-0 hover:text-cyan w-8" onClick={prev}>
