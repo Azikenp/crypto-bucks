@@ -2,22 +2,33 @@ import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import { CryptoContext } from "../context/CryptoContext";
+import Chart from "./Chart";
 
 const HighLowIndicator = ({ currentPrice, high, low }) => {
-  const [green, setGreen ] = useState();
+  const [green, setGreen] = useState();
 
   useEffect(() => {
-    let total = high - low
-    let greenZone = ((high - currentPrice) * 100) / total
-    setGreen(Math.ceil(greenZone))
-  }, [currentPrice, high, low])
+    let total = high - low;
+    let greenZone = ((high - currentPrice) * 100) / total;
+    setGreen(Math.ceil(greenZone));
+  }, [currentPrice, high, low]);
 
   return (
     <>
-      <span className="bg-red h-1.5 rounded-l-lg w-[50%]" style={{width: `${100 - green}%`}}>&nbsp;</span>
-      <span className="bg-green h-1.5 rounded-r-lg w-[50%]"  style={{width: `${green}%`}}>&nbsp;</span>
+      <span
+        className="bg-red h-1.5 rounded-l-lg w-[50%]"
+        style={{ width: `${100 - green}%` }}
+      >
+        &nbsp;
+      </span>
+      <span
+        className="bg-green h-1.5 rounded-r-lg w-[50%]"
+        style={{ width: `${green}%` }}
+      >
+        &nbsp;
+      </span>
     </>
-  )
+  );
 };
 
 function CryptoDetails() {
@@ -289,8 +300,8 @@ function CryptoDetails() {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col w-[55%] h-full pl-4 bg-green">
-              Right
+            <div className="flex flex-col w-[55%] h-full pl-4">
+              <Chart id={data.id} />
             </div>
           </div>
         ) : null}
