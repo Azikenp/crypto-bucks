@@ -66,7 +66,7 @@ function Filters() {
           <img
             src={selectIcon}
             alt="submit icon"
-            className="w-[1rem] h-auto absolute right-[0.1rem] top-[0.3rem] pointer-events-none"
+            className="w-[1rem] h-auto absolute right-[0.1rem] top-[0.5rem] pointer-events-none"
           />
         </label>
 
