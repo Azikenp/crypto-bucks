@@ -1,12 +1,12 @@
 import React, { useLayoutEffect, useState } from 'react'
 import { LineChart, Line } from 'recharts';
 
-const data = [{name: 'Page A', uv: 400, pv: 2400, amt: 2400}, {name: 'Page B', uv: 100, pv: 2100, amt: 2100}];
+// const data = [{name: 'Page A', uv: 400, pv: 2400, amt: 2400}, {name: 'Page B', uv: 100, pv: 2100, amt: 2100}];
 
-const ChartComponent = () => {
+const ChartComponent = ({data}) => {
     return (
         <LineChart width={400} height={400} data={data}>
-          <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+          <Line type="monotone" dataKey="prices" stroke="#14ffec" strokeWidth={"2px"}/>
         </LineChart>
       )
 }
@@ -23,7 +23,17 @@ function Chart({id}) {
                   .then((res) => res.json())
                   .then((json) => json);
                   console.log("chart Data Log", data);
-                setChartData(data);
+
+                  let convertedData = data.prices.map(item => {
+                    return {
+                        data:new Date(item[0]).toLocaleDateString(),
+                        prices: item[1],
+                    }
+                  })
+                  console.log(convertedData);
+                    
+
+                setChartData(convertedData);
               } catch (error) {
                 console.log(error);
               }
@@ -33,7 +43,7 @@ function Chart({id}) {
 
 
   return (
-    <div><ChartComponent /></div>
+    <div><ChartComponent  data={chartData}/></div>
   )
 }
 
