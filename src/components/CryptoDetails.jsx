@@ -1,7 +1,24 @@
-import React, { useContext, useLayoutEffect } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import { CryptoContext } from "../context/CryptoContext";
+
+const HighLowIndicator = ({ currentPrice, high, low }) => {
+  const [green, setGreen ] = useState();
+
+  useEffect(() => {
+    let total = high - low
+    let greenZone = ((high - currentPrice) * 100) / total
+    setGreen(Math.ceil(greenZone))
+  }, [currentPrice, high, low])
+
+  return (
+    <>
+      <span className="bg-red h-1.5 rounded-l-lg w-[50%]" style={{width: `${100 - green}%`}}>&nbsp;</span>
+      <span className="bg-green h-1.5 rounded-r-lg w-[50%]"  style={{width: `${green}%`}}>&nbsp;</span>
+    </>
+  )
+};
 
 function CryptoDetails() {
   let { coinId } = useParams();
@@ -130,7 +147,11 @@ function CryptoDetails() {
               </div>
 
               <div className="flex w-full mt-4 justify-between ">
-                indidcator
+                <HighLowIndicator
+                  currentPrice={data.market_data.current_price[currency]}
+                  high={data.market_data.high_24h[currency]}
+                  low={data.market_data.low_24h[currency]}
+                />
               </div>
 
               <div className="flex w-full mt-4 justify-between">
@@ -192,14 +213,16 @@ function CryptoDetails() {
               <div className="flex w-full mt-4 justify-between">
                 <div className="flex flex-col">
                   <a
-                  target={"_blank"} rel="noreferrer"
+                    target={"_blank"}
+                    rel="noreferrer"
                     className="text-sm bg-gray-200 text-gray-100 px-1.5 py-0.5 my-1 rounded"
                     href={data?.links?.homepage[0]}
                   >
                     {data?.links?.homepage[0].substring(0, 30)}
                   </a>
                   <a
-                  target={"_blank"} rel="noreferrer"
+                    target={"_blank"}
+                    rel="noreferrer"
                     className="text-sm bg-gray-200 text-gray-100 px-1.5 py-0.5 my-1 rounded"
                     href={data?.links?.blockchain_site[0]}
                   >
@@ -207,7 +230,8 @@ function CryptoDetails() {
                   </a>
                   {data?.links?.official_forum_url[0] && (
                     <a
-                    target={"_blank"} rel="noreferrer"
+                      target={"_blank"}
+                      rel="noreferrer"
                       className="text-sm bg-gray-200 text-gray-100 px-1.5 py-0.5 my-1 rounded"
                       href={data?.links?.official_forum_url[0]}
                     >
@@ -217,7 +241,9 @@ function CryptoDetails() {
                 </div>
 
                 <div className="flex flex-col content-start">
-                  <span>sentiment</span>
+                  <span className="text-sm capitalize text-gray-100">
+                    sentiment
+                  </span>
                   <div className="flex justify-between ">
                     <div
                       className={`text-sm px-1 ml-1 my-1 font-medium flex items-center rounded uppercase bg-opacity-25 bg-green text-green`}
