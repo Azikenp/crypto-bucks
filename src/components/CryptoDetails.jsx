@@ -132,7 +132,7 @@ function CryptoDetails() {
               <div className="flex w-full mt-4 justify-between ">
                 indidcator
               </div>
-                
+
               <div className="flex w-full mt-4 justify-between">
                 <div className="flex flex-col">
                   <span className="text-sm capitalize text-gray-100">
@@ -156,9 +156,7 @@ function CryptoDetails() {
                       style: "currency",
                       currency: currency,
                       minimumFractionDigits: 5,
-                    }).format(
-                      data.market_data.high_24h[currency]
-                    )}
+                    }).format(data.market_data.high_24h[currency])}
                   </h2>
                 </div>
               </div>
@@ -186,21 +184,36 @@ function CryptoDetails() {
                       style: "currency",
                       currency: currency,
                       minimumFractionDigits: 0,
-                    }).format(
-                      data.market_data.circulating_supply
-                    )}
+                    }).format(data.market_data.circulating_supply)}
                   </h2>
                 </div>
               </div>
-            
+
               <div className="flex w-full mt-4 justify-between">
                 <div className="flex flex-col">
-                  <a href={data.links.homepage[0]}>{data.links.homepage[0].substring(0, 30)}</a>
-                  <a href={data.links.blockchain_site[0]}>{data.links.blockchain_site[0].substring(0, 30)}</a>
-                  {
-                    data.links.official_forum_url[0] && <a href={data.links.official_forum_url[0]}>{data.links.official_forum_url[0].substring(0, 30)}</a>
-                  }
-                  
+                  <a
+                  target={"_blank"} rel="noreferrer"
+                    className="text-sm bg-gray-200 text-gray-100 px-1.5 py-0.5 my-1 rounded"
+                    href={data?.links?.homepage[0]}
+                  >
+                    {data?.links?.homepage[0].substring(0, 30)}
+                  </a>
+                  <a
+                  target={"_blank"} rel="noreferrer"
+                    className="text-sm bg-gray-200 text-gray-100 px-1.5 py-0.5 my-1 rounded"
+                    href={data?.links?.blockchain_site[0]}
+                  >
+                    {data?.links?.blockchain_site[0].substring(0, 30)}
+                  </a>
+                  {data?.links?.official_forum_url[0] && (
+                    <a
+                    target={"_blank"} rel="noreferrer"
+                      className="text-sm bg-gray-200 text-gray-100 px-1.5 py-0.5 my-1 rounded"
+                      href={data?.links?.official_forum_url[0]}
+                    >
+                      {data?.links?.official_forum_url[0].substring(0, 30)}
+                    </a>
+                  )}
                 </div>
 
                 <div className="flex flex-col content-start">
@@ -210,9 +223,7 @@ function CryptoDetails() {
                       className={`text-sm px-1 ml-1 my-1 font-medium flex items-center rounded uppercase bg-opacity-25 bg-green text-green`}
                     >
                       <span>
-                        {Number(
-                          data.sentiment_votes_up_percentage
-                        ).toFixed(2)}{" "}
+                        {Number(data.sentiment_votes_up_percentage).toFixed(2)}{" "}
                         %
                       </span>
                       <svg
@@ -232,9 +243,9 @@ function CryptoDetails() {
                       className={`text-sm px-1 ml-1 my-1 font-medium flex items-center rounded uppercase bg-opacity-25 bg-red text-red`}
                     >
                       <span>
-                        {Number(
-                          data.sentiment_votes_down_percentage
-                        ).toFixed(2)}{" "}
+                        {Number(data.sentiment_votes_down_percentage).toFixed(
+                          2
+                        )}{" "}
                         %
                       </span>
                       <svg
@@ -251,7 +262,6 @@ function CryptoDetails() {
                   </div>
                 </div>
               </div>
-
             </div>
             <div className="flex flex-col w-[55%] h-full pl-4 bg-green">
               Right
