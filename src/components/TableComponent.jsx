@@ -9,10 +9,10 @@ const SaveBtn = ({ data }) => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    if(allCoins.includes(data.id)){
-      removeCoin(data.id)
-    } else{
-      saveCoin(data.id)
+    if (allCoins.includes(data.id)) {
+      removeCoin(data.id);
+    } else {
+      saveCoin(data.id);
     }
   };
 
@@ -137,7 +137,15 @@ function TableComponent() {
               })}
             </tbody>
           </table>
-        ) : null}
+        ) : (
+          <div className="w-full min-h-[60vh] h-full flex items-center justify-center">
+            <div
+              className="w-8 h-8 border-4 border-cyan rounded-full border-b-gray-300 animate-spin"
+              role="status"
+            ></div>
+            <span className="ml-2">Please Wait . . .</span>
+          </div>
+        )}
       </div>
       <div className="flex items-center justify-between mt-4 capitalize h-[2rem]">
         <span>

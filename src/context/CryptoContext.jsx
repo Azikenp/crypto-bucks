@@ -16,6 +16,7 @@ export const CryptoProvider = ({ children }) => {
   const [perPage, setPerPage] = useState(10);
 
   const getCryptoData = async () => {
+    setCryptoData()
     try {
       const data = await fetch(`https://api.coingecko.com/api/v3/coins/list`)
         .then((res) => res.json())
@@ -38,6 +39,7 @@ export const CryptoProvider = ({ children }) => {
   };
 
   const getCoinData = async (coinid) => {
+    setCoinData()
     try {
       const data = await fetch(
         `https://api.coingecko.com/api/v3/coins/${coinid}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=true&sparkline=false`

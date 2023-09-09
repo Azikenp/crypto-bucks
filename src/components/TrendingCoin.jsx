@@ -4,11 +4,14 @@ import { useNavigate } from "react-router-dom";
 function TrendingCoin({ data }) {
   let navigate = useNavigate();
   const getCoinDetails = (id) => {
-    navigate(`${id}`)
-  }
+    navigate(`${id}`);
+  };
 
   return (
-    <div className="w-[40%] bg-gray-200 mb-12 last:mb-0 rounded-lg p-4 relative cursor-pointer hover:bg-gray-100 hover:bg-opacity-40" onClick={() => getCoinDetails(data.id)}>
+    <div
+      className="w-[40%] bg-gray-200 mb-12 last:mb-0 rounded-lg p-4 relative cursor-pointer hover:bg-gray-100 hover:bg-opacity-40"
+      onClick={() => getCoinDetails(data.id)}
+    >
       {data ? (
         <>
           <h3 className="text-base flex items-center my-0.5">
@@ -45,12 +48,20 @@ function TrendingCoin({ data }) {
           </h3>
 
           <img
-              className="w-[35%] h-[auto] rounded-full absolute top-2/4 -right-12 -translate-y-2/4"
-              src={data.large}
-              alt={data.name}
-            />
+            className="w-[35%] h-[auto] rounded-full absolute top-2/4 -right-12 -translate-y-2/4"
+            src={data.large}
+            alt={data.name}
+          />
         </>
-      ) : null}
+      ) : (
+        <div className="w-full h-full flex items-center justify-center">
+          <div
+            className="w-8 h-8 border-4 border-cyan rounded-full border-b-gray-300 animate-spin"
+            role="status"
+          ></div>
+          <span className="ml-2">Please Wait . . .</span>
+        </div>
+      )}
     </div>
   );
 }

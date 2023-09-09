@@ -6,17 +6,15 @@ import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { CryptoContext } from "../context/CryptoContext";
 
-
-
 const SaveBtn = ({ data }) => {
   const { saveCoin, allCoins, removeCoin } = useContext(StorageContext);
 
   const handleClick = (e) => {
     e.preventDefault();
-    if(allCoins.includes(data.id)){
-      removeCoin(data.id)
-    } else{
-      saveCoin(data.id)
+    if (allCoins.includes(data.id)) {
+      removeCoin(data.id);
+    } else {
+      saveCoin(data.id);
     }
   };
 
@@ -49,100 +47,102 @@ const SaveBtn = ({ data }) => {
 };
 
 const Saved = () => {
-  const { savedData, resetSavedResult} = useContext(StorageContext);
-  const {currency} = useContext(CryptoContext)
+  const { savedData, resetSavedResult } = useContext(StorageContext);
+  const { currency } = useContext(CryptoContext);
 
   return (
     <section className="w-[80%] h-full flex flex-col mt-16 mb-24 relative">
       <div className="w-full min-h-[60vh] py-8 border border-gray-100 rounded">
-        {savedData &&
-              <table className="w-[100%] table-auto">
-                <thead className="capitalize text-base text-gray-100 font-medium border-b border-gray-100">
-                  <tr>
-                    <th className="py-1">asset</th>
-                    <th className="py-1">name</th>
-                    <th className="py-1">price</th>
-                    <th className="py-1">total volume</th>
-                    <th className="py-1">market cap changes</th>
-                    <th className="py-1">1H</th>
-                    <th className="py-1">24H</th>
-                    <th className="py-1">7D</th>
+        {savedData ? (
+          <table className="w-[100%] table-auto">
+            <thead className="capitalize text-base text-gray-100 font-medium border-b border-gray-100">
+              <tr>
+                <th className="py-1">asset</th>
+                <th className="py-1">name</th>
+                <th className="py-1">price</th>
+                <th className="py-1">total volume</th>
+                <th className="py-1">market cap changes</th>
+                <th className="py-1">1H</th>
+                <th className="py-1">24H</th>
+                <th className="py-1">7D</th>
+              </tr>
+            </thead>
+            <tbody>
+              {savedData.map((data) => {
+                return (
+                  <tr
+                    key={data.id}
+                    className="text-center text-base border-b border-gray-100 hover:bg-gray-200 last:border-b-0"
+                  >
+                    <td className="py-4 flex items-center uppercase">
+                      <SaveBtn data={data} />
+                      <img
+                        className="w-[1.2rem] h-[1.2rem] mx-1.5 ml-5"
+                        src={data.image}
+                        alt={data.name}
+                      />
+                      <span>
+                        <Link to={`/${data.id}`} className="cursor-pointer">
+                          {data.symbol}
+                        </Link>
+                      </span>
+                    </td>
+                    <td className="py-4">
+                      <Link to={`/${data.id}`} className="cursor-pointer">
+                        {data.name}
+                      </Link>
+                    </td>
+                    <td className="py-4">
+                      {new Intl.NumberFormat("en-IN", {
+                        style: "currency",
+                        currency: currency,
+                      }).format(data.current_price)}
+                    </td>
+                    <td className="py-4">{data.total_volume}</td>
+                    <td className="py-4">
+                      {data.market_cap_change_percentage_24h}%
+                    </td>
+                    <td
+                      className={
+                        data.price_change_percentage_1h_in_currency > 0
+                          ? "text-green py-4"
+                          : "text-red py-4"
+                      }
+                    >
+                      {Number(
+                        data.price_change_percentage_1h_in_currency
+                      ).toFixed(2)}
+                    </td>
+                    <td
+                      className={
+                        data.price_change_percentage_24h_in_currency > 0
+                          ? "text-green py-4"
+                          : "text-red py-4"
+                      }
+                    >
+                      {Number(
+                        data.price_change_percentage_24h_in_currency
+                      ).toFixed(2)}
+                    </td>
+                    <td
+                      className={
+                        data.price_change_percentage_7d_in_currency > 0
+                          ? "text-green py-4"
+                          : "text-red py-4"
+                      }
+                    >
+                      {Number(
+                        data.price_change_percentage_7d_in_currency
+                      ).toFixed(2)}
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {savedData.map((data) => {
-                    return (
-                      <tr
-                        key={data.id}
-                        className="text-center text-base border-b border-gray-100 hover:bg-gray-200 last:border-b-0"
-                      >
-                        <td className="py-4 flex items-center uppercase">
-                          <SaveBtn data={data} />
-                          <img
-                            className="w-[1.2rem] h-[1.2rem] mx-1.5 ml-5"
-                            src={data.image}
-                            alt={data.name}
-                          />
-                          <span>
-                            <Link to={`/${data.id}`} className="cursor-pointer">
-                              {data.symbol}
-                            </Link>
-                          </span>
-                        </td>
-                        <td className="py-4">
-                          <Link to={`/${data.id}`} className="cursor-pointer">
-                            {data.name}
-                          </Link>
-                        </td>
-                        <td className="py-4">
-                          {new Intl.NumberFormat("en-IN", {
-                            style: "currency",
-                            currency: currency,
-                          }).format(data.current_price)}
-                        </td>
-                        <td className="py-4">{data.total_volume}</td>
-                        <td className="py-4">
-                          {data.market_cap_change_percentage_24h}%
-                        </td>
-                        <td
-                          className={
-                            data.price_change_percentage_1h_in_currency > 0
-                              ? "text-green py-4"
-                              : "text-red py-4"
-                          }
-                        >
-                          {Number(
-                            data.price_change_percentage_1h_in_currency
-                          ).toFixed(2)}
-                        </td>
-                        <td
-                          className={
-                            data.price_change_percentage_24h_in_currency > 0
-                              ? "text-green py-4"
-                              : "text-red py-4"
-                          }
-                        >
-                          {Number(
-                            data.price_change_percentage_24h_in_currency
-                          ).toFixed(2)}
-                        </td>
-                        <td
-                          className={
-                            data.price_change_percentage_7d_in_currency > 0
-                              ? "text-green py-4"
-                              : "text-red py-4"
-                          }
-                        >
-                          {Number(
-                            data.price_change_percentage_7d_in_currency
-                          ).toFixed(2)}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-          }
+                );
+              })}
+            </tbody>
+          </table>
+        ) : (
+          <h1 className="min-h-[60vh] text-lg text-cyan flex items-center justify-center">There is no bookmark to display</h1>
+        )}
         <button
           onClick={resetSavedResult}
           className="w-[2rem] ml-4 hover:scale-110 transition-all trasition-ease absolute right-0 -top-10"
