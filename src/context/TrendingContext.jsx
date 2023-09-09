@@ -4,7 +4,7 @@ import { createContext, useLayoutEffect, useState } from "react";
 export const TrendingContext = createContext({});
 
 //create the provide object
-export const TrendingPrrovider = ({ children }) => {
+export const TrendingProvider = ({ children }) => {
   const [trendData, setTrendData] = useState();
 
   const getTrendData = async () => {
@@ -14,14 +14,14 @@ export const TrendingPrrovider = ({ children }) => {
       )
         .then((res) => res.json())
         .then((json) => json);
-      setTrendData(data);
-      console.log(data);
+      setTrendData(data.coins);
+      console.log(data.coins);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const resetTrending= () => {
+  const resetTrendingResult= () => {
     getTrendData()
   };
 
@@ -32,7 +32,7 @@ export const TrendingPrrovider = ({ children }) => {
   return (
     <TrendingContext.Provider
       value={{
-        
+        trendData, resetTrendingResult
       }}
     >
       {children}
