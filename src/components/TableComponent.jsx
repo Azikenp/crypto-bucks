@@ -4,15 +4,27 @@ import Pagination from "./Pagination";
 import { Link } from "react-router-dom";
 import { StorageContext } from "../context/StorageContext";
 
-const SaveBtn = ({data}) => {
-  const {saveCoin} = useContext(StorageContext)
-  console.log(saveCoin);
+const SaveBtn = ({ data }) => {
+  const { saveCoin, allCoins, removeCoin } = useContext(StorageContext);
 
+  const handleClick = (e) => {
+    e.preventDefault();
+    if(allCoins.includes(data.id)){
+      removeCoin(data.id)
+    } else{
+      saveCoin(data.id)
+    }
+  };
 
   return (
-    <button className="outline-0 border-0 bg-none cursor-pointer">
+    <button
+      className="outline-0 border-0 bg-none cursor-pointer"
+      onClick={(e) => handleClick(e)}
+    >
       <svg
-        className="w-[1.5rem] ml-1.5rem fill-gray-100 hover:fill-cyan"
+        className={`w-[1.5rem] ml-1.5rem ${
+          allCoins.includes(data.id) ? "fill-cyan" : "fill-gray-100"
+        }`}
         width="30"
         height="30"
         viewBox="0 0 30 30"
@@ -60,7 +72,7 @@ function TableComponent() {
                     className="text-center text-base border-b border-gray-100 hover:bg-gray-200 last:border-b-0"
                   >
                     <td className="py-4 flex items-center uppercase">
-                      <SaveBtn data={data}/>
+                      <SaveBtn data={data} />
                       <img
                         className="w-[1.2rem] h-[1.2rem] mx-1.5 ml-5"
                         src={data.image}
