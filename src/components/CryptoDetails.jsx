@@ -35,6 +35,7 @@ function CryptoDetails() {
   let { coinId } = useParams();
   let navigate = useNavigate();
   let { getCoinData, coinData: data, currency } = useContext(CryptoContext);
+  console.log(data);
 
   useLayoutEffect(() => {
     getCoinData(coinId);
@@ -302,6 +303,66 @@ function CryptoDetails() {
             </div>
             <div className="flex flex-col w-[55%] h-full pl-4">
               <Chart id={data.id} />
+              <div className="flex flex-col mt-4">
+                <h3 className="text-white py-1">
+                  <span className="text-gray-100 capitalize mr-1">
+                    market cap rank:
+                  </span>
+                  {data.market_cap_rank}
+                </h3>
+                <h3 className="text-white py-1">
+                  <span className="text-gray-100 capitalize mr-1">
+                    coinGecko rank:
+                  </span>
+                  {data.coingecko_rank}
+                </h3>
+                <h3 className="text-white py-1">
+                  <span className="text-gray-100 capitalize mr-1">
+                    coinGecko score:
+                  </span>
+                  {data.coingecko_score}
+                </h3>
+              </div>
+
+              <div className="absolute bottom-8 right-8 flex items-center">
+                {data.links.repos_url.github[0] && (
+                  <a
+                    target={"_blank"}
+                    rel="noreferrer"
+                    href={data.links.repos_url.github[0]}
+                  >
+                    github
+                  </a>
+                )}
+                {data.links.twitter_screen_name && (
+                  <a
+                    target={"_blank"}
+                    rel="noreferrer"
+                    href={`https://twitter.com/${data.links.twitter_screen_name}`}
+                  >
+                    twitter
+                  </a>
+                )}
+
+                {data.links.subreddit_url && (
+                  <a
+                    target={"_blank"}
+                    rel="noreferrer"
+                    href={data.links.subreddit_url}
+                  >
+                    reddit
+                  </a>
+                )}
+                {data.links.facebook_username && (
+                  <a
+                    target={"_blank"}
+                    rel="noreferrer"
+                    href={`https://facebook.com/${data.links.facebook_username}`}
+                  >
+                    facebook
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         ) : null}
