@@ -35,7 +35,6 @@ function CryptoDetails() {
   let { coinId } = useParams();
   let navigate = useNavigate();
   let { getCoinData, coinData: data, currency } = useContext(CryptoContext);
-  console.log(data);
 
   useLayoutEffect(() => {
     getCoinData(coinId);
