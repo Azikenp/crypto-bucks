@@ -14,7 +14,7 @@ import { CryptoContext } from "../context/CryptoContext";
 // const data = [{name: 'Page A', uv: 400, pv: 2400, amt: 2400}, {name: 'Page B', uv: 100, pv: 2100, amt: 2100}];
 
 function CustomTooltip({ payload, label, active, currency = "usd" }) {
-  if (active) {
+  if (active && payload && payload.length > 0) {
     return (
       <div className="custom-tooltip">
         <p className="label text-sm text-cyan">{`${label} : ${new Intl.NumberFormat(
@@ -32,19 +32,19 @@ function CustomTooltip({ payload, label, active, currency = "usd" }) {
   return null;
 }
 
-const ChartComponent = ({ data, currency }) => {
+const ChartComponent = ({ data, currency, type }) => {
   return (
     <ResponsiveContainer height="90%">
       <LineChart width={400} height={400} data={data}>
         <Line
           type="monotone"
-          dataKey="prices"
+          dataKey= {type}
           stroke="#14ffec"
           strokeWidth={"2px"}
         />
         <CartesianGrid stroke="#323232" />
         <XAxis dataKey="date" hide />
-        <YAxis dataKey="prices" hide domain={["auto", "auto"]} />
+        <YAxis dataKey={type} hide domain={["auto", "auto"]} />
         <Tooltip
           content={<CustomTooltip />}
           currency={currency}
@@ -86,11 +86,16 @@ function Chart({ id }) {
       }
     };
     getChartData(id);
-  }, [id]);
+  }, [id, type]);
 
   return (
     <div className="w-full h-[60%]">
-      <ChartComponent data={chartData} currency={currency} />
+      <ChartComponent data={chartData} currency={currency} type= {type}/>
+      <div className="flex">
+        <button onClick={() => setType("prices")}>Price</button>
+        <button onClick={() => setType("market_caps")}>Market Cap</button>
+        <button onClick={() => setType("total_volumes")}>Total Volume</button>
+      </div>
     </div>
   );
 }
