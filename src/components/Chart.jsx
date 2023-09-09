@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 import {
   LineChart,
   Line,
@@ -9,23 +9,30 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { CryptoContext } from "../context/CryptoContext";
 
 // const data = [{name: 'Page A', uv: 400, pv: 2400, amt: 2400}, {name: 'Page B', uv: 100, pv: 2100, amt: 2100}];
 
-function CustomTooltip({ payload, label, active }) {
-    if (active) {
-      return (
-        <div className="custom-tooltip">
-          <p className="label">{`${label} : ${payload[0].value}`}</p>
-          <p className="desc">Anything you want can be displayed here.</p>
-        </div>
-      );
-    }
-  
-    return null;
+function CustomTooltip({ payload, label, active, currency = "usd" }) {
+  if (active) {
+    return (
+      <div className="custom-tooltip">
+        <p className="label text-sm text-cyan">{`${label} : ${new Intl.NumberFormat(
+          "en-IN",
+          {
+            style: "currency",
+            currency: currency,
+            minimumFractionDigits: 5,
+          }
+        ).format(payload[0].value)}`}</p>
+      </div>
+    );
   }
-  
-  const ChartComponent = ({ data }) => {
+
+  return null;
+}
+
+const ChartComponent = ({ data, currency }) => {
   return (
     <ResponsiveContainer height="90%">
       <LineChart width={400} height={400} data={data}>
@@ -38,7 +45,12 @@ function CustomTooltip({ payload, label, active }) {
         <CartesianGrid stroke="#323232" />
         <XAxis dataKey="date" hide />
         <YAxis dataKey="prices" hide domain={["auto", "auto"]} />
-        <Tooltip content={<CustomTooltip />}/>
+        <Tooltip
+          content={<CustomTooltip />}
+          currency={currency}
+          cursor={false}
+          wrapperStyle={{ outline: "none" }}
+        />
         <Legend />
       </LineChart>
     </ResponsiveContainer>
@@ -47,6 +59,8 @@ function CustomTooltip({ payload, label, active }) {
 
 function Chart({ id }) {
   const [chartData, setChartData] = useState();
+  let { currency } = useContext(CryptoContext);
+  const [type, setType] = useState("prices")
 
   useLayoutEffect(() => {
     const getChartData = async (id) => {
@@ -58,10 +72,10 @@ function Chart({ id }) {
           .then((json) => json);
         console.log("chart Data Log", data);
 
-        let convertedData = data.prices.map((item) => {
+        let convertedData = data[type].map((item) => {
           return {
             date: new Date(item[0]).toLocaleDateString(),
-            prices: item[1],
+            [type]: item[1],
           };
         });
         console.log(convertedData);
@@ -76,7 +90,7 @@ function Chart({ id }) {
 
   return (
     <div className="w-full h-[60%]">
-      <ChartComponent data={chartData} />
+      <ChartComponent data={chartData} currency={currency} />
     </div>
   );
 }

@@ -8,8 +8,8 @@ function Logo() {
       to="/"
       className="absolute top-[1.5rem] left-[1.5rem] [text-decoration: none] flex items-center"
     >
-      <img src={logoSvg} alt="CryptoBucks" />
-      <span className="text-lg text-cyan">Crypto Bucks</span>
+      <img src={logoSvg} alt="CryptoZazuu" />
+      <span className="text-lg text-cyan">Crypto Zazuu</span>
     </Link>
   );
 }
