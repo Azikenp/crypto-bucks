@@ -59,9 +59,9 @@ function TableComponent() {
                 <th className="py-1">price</th>
                 <th className="py-1">total volume</th>
                 <th className="py-1">market cap changes</th>
-                <th className="py-1">1H</th>
-                <th className="py-1">24H</th>
-                <th className="py-1">7D</th>
+                <th className="py-1 lg:table-cell hidden">1H</th>
+                <th className="py-1 lg:table-cell hidden">24H</th>
+                <th className="py-1 lg:table-cell hidden">7D</th>
               </tr>
             </thead>
             <tbody>
@@ -102,8 +102,8 @@ function TableComponent() {
                     <td
                       className={
                         data.price_change_percentage_1h_in_currency > 0
-                          ? "text-green py-4"
-                          : "text-red py-4"
+                          ? "text-green py-4 lg:table-cell hidden"
+                          : "text-red py-4 lg:table-cell hidden"
                       }
                     >
                       {Number(
@@ -113,8 +113,8 @@ function TableComponent() {
                     <td
                       className={
                         data.price_change_percentage_24h_in_currency > 0
-                          ? "text-green py-4"
-                          : "text-red py-4"
+                          ? "text-green py-4 lg:table-cell hidden"
+                          : "text-red py-4 lg:table-cell hidden"
                       }
                     >
                       {Number(
@@ -124,8 +124,8 @@ function TableComponent() {
                     <td
                       className={
                         data.price_change_percentage_7d_in_currency > 0
-                          ? "text-green py-4"
-                          : "text-red py-4"
+                          ? "text-green py-4 lg:table-cell hidden"
+                          : "text-red py-4 lg:table-cell hidden"
                       }
                     >
                       {Number(
