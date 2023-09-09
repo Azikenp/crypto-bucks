@@ -1,4 +1,5 @@
-import { createContext, useLayoutEffect, useState } from "react";
+import { createContext, useContext, useEffect, useLayoutEffect, useState } from "react";
+import { CryptoContext } from "./CryptoContext";
 
 //create context object
 export const StorageContext = createContext({});
@@ -6,6 +7,8 @@ export const StorageContext = createContext({});
 //create the provide object
 export const StorageProvider = ({ children }) => {
   const [allCoins, setAllCoins] = useState([]);
+  const [savedData, setSavedData] = useState()
+    let {currency, sortBy} = useContext(CryptoContext);
 
   const saveCoin = (coinId) => {
     let oldCoins = JSON.parse(localStorage.getItem("coins"));
@@ -28,6 +31,34 @@ export const StorageProvider = ({ children }) => {
     localStorage.setItem("coins", JSON.stringify(newCoins));
   };
 
+  const getSavedData = async (totalCoins = allCoins) => {
+
+    try {
+      const data = await fetch(
+        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&ids=${totalCoins.join(",")}&order=${sortBy}&sparkline=false&price_change_percentage=1h%2C24h%2C7d&locale=en`
+      )
+        .then((res) => res.json())
+        .then((json) => json);
+      setSavedData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const resetSavedResult = () => {
+    getSavedData()
+  }
+
+  useEffect(() => {
+    if(allCoins.length > 0){
+        getSavedData(allCoins)
+    }
+    else{
+        setSavedData()
+    }
+  }, [allCoins])
+
+
   useLayoutEffect(() => {
     let isThere = JSON.parse(localStorage.getItem("coin")) || false;
 
@@ -36,8 +67,12 @@ export const StorageProvider = ({ children }) => {
       localStorage.setItem("coins", JSON.stringify([]));
     } else {
       //set the state with the curremt values from local storage
-      let totalCoin = JSON.parse(localStorage.getItem("coin"));
-      setAllCoins(totalCoin);
+      let totalCoins = JSON.parse(localStorage.getItem("coin"));
+      setAllCoins(totalCoins);
+
+      if(totalCoins.length > 0){
+        getSavedData(totalCoins)
+      }
     }
   }, []);
 
@@ -47,6 +82,7 @@ export const StorageProvider = ({ children }) => {
         saveCoin,
         allCoins,
         removeCoin,
+        savedData, resetSavedResult
       }}
     >
       {children}
